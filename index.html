@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Femira | Moderní poradna pro ženy</title>
+    <meta name="description"
+        content="Femira - Poradna pro ženy. Poskytujeme poradenské služby v rámci gynekologické prevence a porodnictví. Navštivte naši moderní gynekologickou ambulanci v Roudnici nad Labem.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo">
+                <i class="fa-solid fa-leaf"></i> Femira
+            </a>
+            <nav class="nav-links">
+                <a href="#sluzby">Služby</a>
+                <a href="#galerie">Galerie</a>
+                <a href="#rezervace">Rezervace</a>
+                <a href="#tym">Lékařský tým</a>
+                <a href="#faq">FAQ</a>
+                <a href="#kontakt">Kontakt</a>
+                <a href="#prevence">Prevence</a>
+            </nav>
+            <div class="nav-contact">
+                <a href="tel:+420416838186" class="btn btn-outline"><i class="fa-solid fa-phone"></i> 416 838 186</a>
+            </div>
+            <button class="mobile-menu-btn" aria-label="Otevřít menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container hero-container">
+                <div class="hero-content">
+                    <span class="badge">Aktuálně přijímáme nové pacientky</span>
+                    <h1>Moderní péče o ženské zdraví</h1>
+                    <p>Nabízíme komplexní a citlivý přístup v oblasti gynekologické prevence, léčby a porodnictví. V
+                        naší nově zrekonstruované ambulanci v Roudnici nad Labem se budete cítit bezpečně a komfortně.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="#sluzby" class="btn btn-primary">Naše služby</a>
+                        <a href="#kontakt" class="btn btn-secondary">Kontaktujte nás</a>
+                    </div>
+                </div>
+                <div class="hero-news-wrapper">
+                    <div class="news-card">
+                        <h3>Aktuality</h3>
+                        <div class="news-content">
+                            <div class="news-item">
+                                <i class="fa-solid fa-umbrella-beach"></i>
+                                <div>
+                                    <strong>Letní dovolená</strong>
+                                    <p>Od 15. 7. do 30. 7. 2026 je ambulance z důvodu dovolené uzavřena. Akutní případy ošetří MUDr. Nováková (Poliklinika Roudnice).</p>
+                                </div>
+                            </div>
+                            <div class="news-item">
+                                <i class="fa-solid fa-user-plus"></i>
+                                <div>
+                                    <strong>Přijímáme nové pacientky</strong>
+                                    <p>Aktuálně máme uvolněnou kapacitu pro nové pacientky. Můžete se rovnou zaregistrovat přes náš online rezervační systém.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="sluzby" class="services-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Naše poskytované služby</h2>
+                    <p>Kliknutím na jednotlivé služby se dozvíte více informací. Poskytujeme plnou péči jak v
+                        gynekologii, tak i v porodnictví.</p>
+                </div>
+
+                <div class="services-wrapper">
+                    <div class="service-category">
+                        <div class="category-icon">
+                            <i class="fa-solid fa-stethoscope"></i>
+                        </div>
+                        <h3>Gynekologie</h3>
+                        <div class="accordion">
+                            <div class="accordion-item">
+                                <button class="accordion-header">
+                                    <span>Screening a prevence</span>
+                                    <i class="fa-solid fa-chevron-down"></i>
+                                </button>
+                                <div class="accordion-content">
+                                    <p>Pravidelné preventivní prohlídky jsou základem zdraví každé ženy. Nabízíme
+                                        komplexní vyšetření včetně onkologické cytologie a ultrazvukového vyšetření malé
+                                        pánve s ohledem na maximální prevenci.</p>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <button class="accordion-header">
+                                    <span>Léčení</span>
+                                    <i class="fa-solid fa-chevron-down"></i>
+                                </button>
+                                <div class="accordion-content">
+                                    <p>Poskytujeme diagnostiku a léčbu gynekologických onemocnění od běžných infekcí až
+                                        po komplexnější obtíže s citlivým, vysoce individuálním přístupem ke každé naší
+                                        pacientce.</p>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <button class="accordion-header">
+                                    <span>Spolupráce na klinická pracoviště</span>
+                                    <i class="fa-solid fa-chevron-down"></i>
+                                </button>
+                                <div class="accordion-content">
+                                    <p>V případě potřeby složitějších operativních zákroků úzce spolupracujeme s
+                                        předními klinickými a specializovanými pracovišti. Vždy zajistíme plynulou a
+                                        kvalitní navazující péči pro Vaše zdraví.</p>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <button class="accordion-header">
+                                    <span>Antikoncepce</span>
+                                    <i class="fa-solid fa-chevron-down"></i>
+                                </button>
+                                <div class="accordion-content">
+                                    <p>Pomůžeme Vám vybrat tu nejvhodnější formu antikoncepce přesně s ohledem na Váš
+                                        věk, zdravotní stav, plány a životní styl. Předepisujeme a aplikujeme hormonální
+                                        i moderní nehormonální varianty.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="service-category">
+                        <div class="category-icon">
+                            <i class="fa-solid fa-baby-carriage"></i>
+                        </div>
+                        <h3>Porodnictví</h3>
+                        <div class="accordion">
+                            <div class="accordion-item">
+                                <button class="accordion-header">
+                                    <span>Těhotenské poradny (i rizikové)</span>
+                                    <i class="fa-solid fa-chevron-down"></i>
+                                </button>
+                                <div class="accordion-content">
+                                    <p>Zajišťujeme komplexní ambulantní péči a vedení poradny pro budoucí maminky v
+                                        průběhu celého těhotenství, a to včetně specializovaného sledování v případě
+                                        rizikových těhotenství.</p>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <button class="accordion-header">
+                                    <span>Ultrazvuk a screening</span>
+                                    <i class="fa-solid fa-chevron-down"></i>
+                                </button>
+                                <div class="accordion-content">
+                                    <p>Ambulance je vybavena moderní ultrazvukovou technikou pro přesné sledování vývoje
+                                        plodu. Zajišťujeme mimo jiné prvotrimestrální screening vrozených vad a podrobná
+                                        morfologická vyšetření.</p>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <button class="accordion-header">
+                                    <span>Poradenství u neplodnosti</span>
+                                    <i class="fa-solid fa-chevron-down"></i>
+                                </button>
+                                <div class="accordion-content">
+                                    <p>Pokud se Vám nedaří otěhotnět, provedeme u nás prvotní diagnostiku příčin a
+                                        připravíme návrhy řešení. Následně zajišťujeme plynulou spolupráci se špičkovými
+                                        specializovanými centry asistované reprodukce.</p>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <button class="accordion-header">
+                                    <span>Léčba a spolupráce s porodnicemi</span>
+                                    <i class="fa-solid fa-chevron-down"></i>
+                                </button>
+                                <div class="accordion-content">
+                                    <p>Klademe důraz na léčbu a včasné podchycení i drobných těhotenských komplikací.
+                                        Máme velmi úzké navázání na přední okolní porodnice, kde můžeme zprostředkovat
+                                        následnou péči při samotném porodu.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="prevence" class="prevention-section">
+    <div class="container">
+        <div class="section-header center">
+            <h2>Průvodce prevencí</h2>
+            <p>Zadejte svůj věk a zjistěte, na která preventivní vyšetření máte nárok
+                v rámci veřejného zdravotního pojištění a v jakých intervalech.</p>
+        </div>
+
+        <div class="prevention-card">
+            <form id="prevention-form" class="prevention-form" novalidate>
+                <div class="prevention-input-group">
+                    <label for="prevention-age">Váš věk</label>
+                    <input type="number" id="prevention-age" name="age"
+                        min="1" max="120" placeholder="např. 35" inputmode="numeric" required>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-magnifying-glass"></i> Zobrazit vyšetření
+                </button>
+            </form>
+            <p id="prevention-error" class="prevention-error" role="alert"></p>
+            <p class="prevention-note">
+                <i class="fa-solid fa-lock"></i>
+                Údaj o věku se nikam neodesílá – výpočet probíhá pouze ve vašem prohlížeči.
+            </p>
+        </div>
+
+        <div id="prevention-results" class="prevention-results" hidden>
+            <div class="prevention-results-header">
+                <h3 id="prevention-results-title">Doporučená vyšetření</h3>
+                <span id="prevention-results-count" class="prevention-badge">0 vyšetření</span>
+            </div>
+            <div id="prevention-list" class="prevention-list"></div>
+            <p class="prevention-disclaimer">
+                * Informace mají orientační charakter a vycházejí z doporučení hrazené péče v ČR.
+                Konkrétní nárok a vhodnost vyšetření vždy konzultujte se svým lékařem
+                nebo zdravotní pojišťovnou.
+            </p>
+        </div>
+    </div>
+</section>
+
+        <section id="galerie" class="gallery-section">
+            <div class="container">
+                <div class="section-header center">
+                    <h2>Naše ambulance</h2>
+                    <p>Prohlédněte si prostory naší moderní a vybavené kliniky.</p>
+                </div>
+                <div class="gallery-grid">
+                    <!-- Místo pro Váš obrázek č. 1 -->
+                    <div class="gallery-item">
+                        <div class="placeholder-text">Zde bude Váš obrázek č. 1<br><small>(Doplňte src="..." u tagu img
+                                níže)</small></div>
+                        <img src="1.webp" alt="Fotografie ambulance 1">
+                        <div class="gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+                    </div>
+                    <!-- Místo pro Váš obrázek č. 2 -->
+                    <div class="gallery-item">
+                        <div class="placeholder-text">Zde bude Váš obrázek č. 2<br><small>(Doplňte src="..." u tagu img
+                                níže)</small></div>
+                        <img src="2.jpeg" alt="Fotografie ambulance 2">
+                        <div class="gallery-overlay"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="rezervace" class="reservation-section">
+            <div class="container">
+                <div class="reservation-card">
+                    <div class="reservation-content">
+                        <h2>Sjednejte si termín pohodlně a rychle</h2>
+                        <p>Zvolte si nejvhodnější čas návštěvy z pohodlí Vašeho domova. Náš moderní rezervační systém Reservio Vám umožní rychlý přehled volných termínů bez nutnosti volání.</p>
+                        <ul class="features">
+                            <li><i class="fa-solid fa-check"></i> Nonstop dostupnost 24/7</li>
+                            <li><i class="fa-solid fa-check"></i> Přehled o volných časech</li>
+                            <li><i class="fa-solid fa-check"></i> Potvrzení ihned na e-mail</li>
+                        </ul>
+                    </div>
+                    <div class="reservation-action">
+                        <div class="icon-circle">
+                            <i class="fa-regular fa-calendar-check"></i>
+                        </div>
+                        <h3>Online Rezervace</h3>
+                        
+                        <div class="reservio-button-wrapper" style="width: 100%; display: flex; justify-content: center;">
+                            <div class="reservio-button-container mt-2"
+                                 data-text="Vytvořit rezervaci"
+                                 data-size="medium"
+                                 data-color="#D91881"
+                                 data-url="https://femira.reservio.com">
+                            </div>
+                        </div>
+                        <script src="https://cdn.reservio.com/widget/button-bundle.js"></script>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tym" class="schedule-section">
+            <div class="container container-sm">
+                <div class="section-header center">
+                    <h2>Kdy tu pro Vás jsme?</h2>
+                    <p>Náš specializovaný tým lékařů je pro vás plně k dispozici v těchto dnech.</p>
+                </div>
+
+                <div class="schedule-card">
+                    <div class="schedule-row">
+                        <div class="day">Pondělí</div>
+                        <div class="hours">7:30 – 12:00, 13:00 – 15:30</div>
+                        <div class="doctor">MUDr. Monika Coufalová</div>
+                    </div>
+                    <div class="schedule-row">
+                        <div class="day">Úterý</div>
+                        <div class="hours">13:00 – 17:00</div>
+                        <div class="doctor">MUDr. Simona Podráská</div>
+                    </div>
+                    <div class="schedule-row">
+                        <div class="day">Středa</div>
+                        <div class="hours">7:30 – 12:00, 13:00 – 15:30</div>
+                        <div class="doctor">MUDr. Simona Podráská</div>
+                    </div>
+                    <div class="schedule-row">
+                        <div class="day">Čtvrtek</div>
+                        <div class="hours">7:30 – 13:00</div>
+                        <div class="doctor">MUDr. Simona Podráská</div>
+                    </div>
+                    <div class="schedule-row">
+                        <div class="day">Pátek</div>
+                        <div class="hours">7:30 – 12:00</div>
+                        <div class="doctor">MUDr. Pavel Spěváček</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq" class="faq-section">
+            <div class="container">
+                <div class="section-header center">
+                    <h2>Nejčastější otázky</h2>
+                    <p>Odpovědi na otázky, které nám kladete nejčastěji. Pokud zde nenajdete, co hledáte, neváhejte nás kontaktovat.</p>
+                </div>
+
+                <!-- Category tabs -->
+                <div class="faq-tabs" role="tablist">
+                    <button class="faq-tab active" data-category="all" role="tab" aria-selected="true">Vše</button>
+                    <button class="faq-tab" data-category="zakladni" role="tab" aria-selected="false">Základní</button>
+                    <button class="faq-tab" data-category="tehotenstvi" role="tab" aria-selected="false">🤰 Těhotenství</button>
+                    <button class="faq-tab" data-category="vysetreni" role="tab" aria-selected="false">🩺 Vyšetření</button>
+                    <button class="faq-tab" data-category="antikoncepce" role="tab" aria-selected="false">💊 Antikoncepce</button>
+                    <button class="faq-tab" data-category="zdravi" role="tab" aria-selected="false">❗ Zdraví</button>
+                    <button class="faq-tab" data-category="porodnictvi" role="tab" aria-selected="false">👶 Porodnictví</button>
+                    <button class="faq-tab" data-category="prakticke" role="tab" aria-selected="false">🧾 Praktické</button>
+                </div>
+
+                <div class="faq-list">
+
+                    <!-- Základní otázky -->
+                    <div class="faq-group" data-category="zakladni">
+                        <div class="faq-group-label"><span>Základní otázky</span></div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>Kdy jít poprvé na gynekologii?</span>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Doporučujeme první návštěvu gynekologie kolem 15–18 roku věku, nebo při zahájení pohlavního života. Gynekolog Vás provede prevencí a zodpoví veškeré Vaše otázky ohledně zdraví.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>Jak často chodit na gynekologickou prohlídku?</span>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Ze zákona máte nárok na bezplatnou preventivní gynekologickou prohlídku <strong>jednou ročně</strong>. Pravidelné návštěvy jsou klíčem k včasnému záchytu případných problémů.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Těhotenství -->
+                    <div class="faq-group" data-category="tehotenstvi">
+                        <div class="faq-group-label"><span>🤰 Těhotenství</span></div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>Jak poznám, že jsem těhotná?</span>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Nejčastějším příznakem je vynechání menstruace. Těhotenství potvrdí těhotenský test z lékárny nebo krevní test u lékaře. Dalšími příznaky mohou být únava, nevolnost nebo citlivá prsa.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>Kdy jít k lékaři po zjištění těhotenství?</span>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Ideálně co nejdříve po pozitivním testu – nejpozději do <strong>8. týdne těhotenství</strong>. Lékař potvrdí těhotenství ultrazvukem, provede potřebná vyšetření a zahájí vedení těhotenské poradny.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Vyšetření -->
+                    <div class="faq-group" data-category="vysetreni">
+                        <div class="faq-group-label"><span>🩺 Vyšetření</span></div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>Co zahrnuje preventivní gynekologická prohlídka?</span>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Preventivní prohlídka zahrnuje gynekologické vyšetření, odběr cytologie (stěr z čípku), ultrazvukové vyšetření malé pánve a prsu, a konzultaci o Vašem zdravotním stavu. V případě potřeby i vyšetření prsou.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>Jak se připravit na gynekologii?</span>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Ideálně si naplánujte návštěvu mimo menstruaci. Nevykonávejte 24–48 hodin před prohlídkou pohlavní styk. Přineste si průkaz pojišťovny a seznam užívaných léků. Není třeba se speciálně připravovat.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Antikoncepce -->
+                    <div class="faq-group" data-category="antikoncepce">
+                        <div class="faq-group-label"><span>💊 Antikoncepce</span></div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>Jakou antikoncepci si vybrat?</span>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Výběr antikoncepce záleží na Vašem věku, zdravotním stavu, životním stylu a plánech do budoucna. Nabízíme hormonální antikoncepci (pilulky, náplasti, kroužky), nitroděložní tělíska i nehormonální metody. Vše probereme při konzultaci.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>Jak funguje hormonální antikoncepce?</span>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Hormonální antikoncepce obsahuje syntetické hormony (estrogen a/nebo gestagen), které potlačují ovulaci, mění hlen v čípku a výstelku dělohy. Správně užívaná má spolehlivost přes 99 %.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Zdraví a problémy -->
+                    <div class="faq-group" data-category="zdravi">
+                        <div class="faq-group-label"><span>❗ Zdraví a problémy</span></div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>Co dělat při nepravidelné menstruaci?</span>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Nepravidelná menstruace může mít mnoho příčin – stres, hormonální nerovnováhu, změnu váhy nebo onemocnění. Pokud nepravidelnosti trvají déle než 2–3 cykly, doporučujeme návštěvu naší ordinace pro bližší vyšetření.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>Kdy jít k lékaři okamžitě?</span>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Okamžitě vyhledejte pomoc při: silné bolesti v podbřišku, neobvyklém krvácení mimo menstruaci, příznacích zánětu (horečka, výtok se zápachem) nebo podezření na těhotenství v trubici.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Porodnictví -->
+                    <div class="faq-group" data-category="porodnictvi">
+                        <div class="faq-group-label"><span>👶 Porodnictví</span></div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>Jak probíhá porod?</span>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Porod probíhá ve třech fázích: otevírací (dilatace čípku), vypuzovací (samotný porod dítěte) a poporodní (vypuzení placenty). Naše lékařky Vás na každou fázi připraví a zajistí bezpečný přechod do spolupracující porodnice.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>Kdy jet do porodnice?</span>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Jeďte do porodnice, pokud máte pravidelné kontrakce každých 5 minut, odtekla Vám plodová voda, nebo máte silné krvácení. U rizikového těhotenství se řiďte pokyny Vašeho lékaře.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Praktické informace -->
+                    <div class="faq-group" data-category="prakticke">
+                        <div class="faq-group-label"><span>🧾 Praktické informace</span></div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>Jak se objednat na vyšetření?</span>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Objednání je nejjednodušší přes náš <a href="#rezervace">online rezervační systém Reservio</a>, kde vidíte volné termíny a potvrzení přijde ihned na e-mail. Případně nám zavolejte na <a href="tel:+420416838186">416 838 186</a> nebo napište na <a href="mailto:gynekolog.ps@seznam.cz">gynekolog.ps@seznam.cz</a>.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>Přijímáte nové pacientky?</span>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </button>
+                            <div class="faq-answer">
+                                <p>Ano! Aktuálně <strong>přijímáme nové pacientky</strong>. Zaregistrujte se jednoduše přes náš online rezervační systém nebo nás kontaktujte telefonicky. Těšíme se na Vás!</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="kontakt" class="contact-section">
+            <div class="container">
+                <div class="contact-wrapper-box">
+                    <div class="contact-grid">
+                        <div class="contact-info">
+                            <h2>Kontaktujte nás</h2>
+                            <p>Máte otázky, nebo se chcete rovnou objednat k prohlídce? Zavolejte nám, nebo napište email.
+                                Jsme tu pro vás.</p>
+
+                            <div class="contact-methods">
+                                <div class="method-item">
+                                    <div class="item-icon"><i class="fa-solid fa-phone"></i></div>
+                                    <div>
+                                        <h4>Telefonní spojení</h4>
+                                        <p><a href="tel:+420416838186">416 838 186</a></p>
+                                        <p><a href="tel:+420724866920">724 866 920</a></p>
+                                    </div>
+                                </div>
+                                <div class="method-item">
+                                    <div class="item-icon"><i class="fa-solid fa-envelope"></i></div>
+                                    <div>
+                                        <h4>Emailová adresa</h4>
+                                        <p><a href="mailto:gynekolog.ps@seznam.cz">gynekolog.ps@seznam.cz</a></p>
+                                    </div>
+                                </div>
+                                <div class="method-item">
+                                    <div class="item-icon"><i class="fa-solid fa-location-dot"></i></div>
+                                    <div>
+                                        <h4>Kde nás najdete</h4>
+                                        <p>Riegrova 637<br>413 01 Roudnice nad Labem</p>
+                                        <a href="https://www.google.com/maps/place/Riegrova+637,+413+01+Roudnice+nad+Labem"
+                                            target="_blank" class="text-link">Ukázat na mapě <i
+                                                class="fa-solid fa-arrow-right"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="contact-form-wrapper">
+                            <form class="contact-form" id="contactForm">
+                                <input type="hidden" name="_subject" value="Nová zpráva z webu Femira">
+                                <input type="text" name="_honey" style="display:none">
+                                <div class="form-group">
+                                    <label for="name">Jméno a příjmení</label>
+                                    <input type="text" id="name" name="name" placeholder="Např. Jana Nováková" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">E-mailová adresa</label>
+                                    <input type="email" id="email" name="email" placeholder="vas@email.cz" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone">Telefonní číslo (nepovinné)</label>
+                                    <input type="tel" id="phone" name="phone" placeholder="+420 123 456 789">
+                                </div>
+                                <div class="form-group">
+                                    <label for="department">Kam chcete směřovat dotaz?</label>
+                                    <div class="custom-select-wrapper" id="customDepartmentMenu">
+                                        <div class="custom-select">
+                                            <span class="custom-select-trigger">Vyberte oddělení</span>
+                                            <i class="fa-solid fa-chevron-down custom-select-icon"></i>
+                                        </div>
+                                        <div class="custom-select-options">
+                                            <div class="custom-option" data-value="gynekologie">Gynekologie</div>
+                                            <div class="custom-option" data-value="porodnictvi">Porodnictví</div>
+                                        </div>
+                                        <select id="department" name="department" required style="display:none;">
+                                            <option value="" disabled selected>Vyberte oddělení</option>
+                                            <option value="gynekologie">Gynekologie</option>
+                                            <option value="porodnictvi">Porodnictví</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="message">Vaše zpráva</label>
+                                    <textarea id="message" name="message" rows="4" placeholder="Jak Vám můžeme pomoci?"
+                                        required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-submit">Odeslat zprávu <i
+                                        class="fa-solid fa-paper-plane"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mapa -->
+                <div class="map-wrapper" style="margin-top: 64px;">
+                    <iframe
+                        src="https://maps.google.com/maps?q=Riegrova%20637%2C%20413%2001%20Roudnice%20nad%20Labem&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                        width="100%" height="450"
+                        style="border:0; border-radius: var(--radius-lg); box-shadow: var(--shadow-sm);"
+                        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-bottom">
+                <div class="footer-logo">
+                    <i class="fa-solid fa-leaf"></i> Femira
+                </div>
+                <div class="footer-legal">
+                    <p>IČO: 10964011</p>
+                    <p>Spisová značka: C 47304/KSUL Krajský soud v Ústí nad Labem</p>
+                </div>
+                <div class="footer-copyright">
+                    &copy; 2026 Femira - Poradna pro ženy. Všechna práva vyhrazena.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
