@@ -55,20 +55,10 @@
                 <div class="hero-news-wrapper">
                     <div class="news-card">
                         <h3>Aktuality</h3>
-                        <div class="news-content">
-                            <div class="news-item">
-                                <i class="fa-solid fa-umbrella-beach"></i>
-                                <div>
-                                    <strong>Letní dovolená</strong>
-                                    <p>Od 15. 7. do 30. 7. 2026 je ambulance z důvodu dovolené uzavřena. Akutní případy ošetří MUDr. Nováková (Poliklinika Roudnice).</p>
-                                </div>
-                            </div>
-                            <div class="news-item">
-                                <i class="fa-solid fa-user-plus"></i>
-                                <div>
-                                    <strong>Přijímáme nové pacientky</strong>
-                                    <p>Aktuálně máme uvolněnou kapacitu pro nové pacientky. Můžete se rovnou zaregistrovat přes náš online rezervační systém.</p>
-                                </div>
+                        <div class="news-content" id="aktuality-obsah">
+                            <div class="news-loading">
+                                <i class="fa-solid fa-circle-notch fa-spin"></i>
+                                <span>Načítám aktuality…</span>
                             </div>
                         </div>
                     </div>
@@ -338,23 +328,19 @@
                     <p>Odpovědi na otázky, které nám kladete nejčastěji. Pokud zde nenajdete, co hledáte, neváhejte nás kontaktovat.</p>
                 </div>
 
-                <!-- Category tabs -->
-                <div class="faq-tabs" role="tablist">
-                    <button class="faq-tab active" data-category="all" role="tab" aria-selected="true">Vše</button>
-                    <button class="faq-tab" data-category="zakladni" role="tab" aria-selected="false">Základní</button>
-                    <button class="faq-tab" data-category="tehotenstvi" role="tab" aria-selected="false">🤰 Těhotenství</button>
-                    <button class="faq-tab" data-category="vysetreni" role="tab" aria-selected="false">🩺 Vyšetření</button>
-                    <button class="faq-tab" data-category="antikoncepce" role="tab" aria-selected="false">💊 Antikoncepce</button>
-                    <button class="faq-tab" data-category="zdravi" role="tab" aria-selected="false">❗ Zdraví</button>
-                    <button class="faq-tab" data-category="porodnictvi" role="tab" aria-selected="false">👶 Porodnictví</button>
-                    <button class="faq-tab" data-category="prakticke" role="tab" aria-selected="false">🧾 Praktické</button>
-                </div>
 
                 <div class="faq-list">
 
                     <!-- Základní otázky -->
-                    <div class="faq-group" data-category="zakladni">
-                        <div class="faq-group-label"><span>Základní otázky</span></div>
+                    <div class="faq-group collapsed" data-category="zakladni">
+                        <button class="faq-group-label" aria-expanded="false">
+                            <span>Základní otázky</span>
+                            <div class="faq-group-meta">
+                                <span class="faq-group-count">2 otázky</span>
+                                <i class="fa-solid fa-chevron-down faq-group-chevron"></i>
+                            </div>
+                        </button>
+                        <div class="faq-group-items">
                         <div class="faq-item">
                             <button class="faq-question" aria-expanded="false">
                                 <span>Kdy jít poprvé na gynekologii?</span>
@@ -373,11 +359,19 @@
                                 <p>Ze zákona máte nárok na bezplatnou preventivní gynekologickou prohlídku <strong>jednou ročně</strong>. Pravidelné návštěvy jsou klíčem k včasnému záchytu případných problémů.</p>
                             </div>
                         </div>
+                        </div>
                     </div>
 
                     <!-- Těhotenství -->
-                    <div class="faq-group" data-category="tehotenstvi">
-                        <div class="faq-group-label"><span>🤰 Těhotenství</span></div>
+                    <div class="faq-group collapsed" data-category="tehotenstvi">
+                        <button class="faq-group-label" aria-expanded="false">
+                            <span>🤰 Těhotenství</span>
+                            <div class="faq-group-meta">
+                                <span class="faq-group-count">2 otázky</span>
+                                <i class="fa-solid fa-chevron-down faq-group-chevron"></i>
+                            </div>
+                        </button>
+                        <div class="faq-group-items">
                         <div class="faq-item">
                             <button class="faq-question" aria-expanded="false">
                                 <span>Jak poznám, že jsem těhotná?</span>
@@ -396,11 +390,19 @@
                                 <p>Ideálně co nejdříve po pozitivním testu – nejpozději do <strong>8. týdne těhotenství</strong>. Lékař potvrdí těhotenství ultrazvukem, provede potřebná vyšetření a zahájí vedení těhotenské poradny.</p>
                             </div>
                         </div>
+                        </div>
                     </div>
 
                     <!-- Vyšetření -->
-                    <div class="faq-group" data-category="vysetreni">
-                        <div class="faq-group-label"><span>🩺 Vyšetření</span></div>
+                    <div class="faq-group collapsed" data-category="vysetreni">
+                        <button class="faq-group-label" aria-expanded="false">
+                            <span>🩺 Vyšetření</span>
+                            <div class="faq-group-meta">
+                                <span class="faq-group-count">2 otázky</span>
+                                <i class="fa-solid fa-chevron-down faq-group-chevron"></i>
+                            </div>
+                        </button>
+                        <div class="faq-group-items">
                         <div class="faq-item">
                             <button class="faq-question" aria-expanded="false">
                                 <span>Co zahrnuje preventivní gynekologická prohlídka?</span>
@@ -419,11 +421,19 @@
                                 <p>Ideálně si naplánujte návštěvu mimo menstruaci. Nevykonávejte 24–48 hodin před prohlídkou pohlavní styk. Přineste si průkaz pojišťovny a seznam užívaných léků. Není třeba se speciálně připravovat.</p>
                             </div>
                         </div>
+                        </div>
                     </div>
 
                     <!-- Antikoncepce -->
-                    <div class="faq-group" data-category="antikoncepce">
-                        <div class="faq-group-label"><span>💊 Antikoncepce</span></div>
+                    <div class="faq-group collapsed" data-category="antikoncepce">
+                        <button class="faq-group-label" aria-expanded="false">
+                            <span>💊 Antikoncepce</span>
+                            <div class="faq-group-meta">
+                                <span class="faq-group-count">2 otázky</span>
+                                <i class="fa-solid fa-chevron-down faq-group-chevron"></i>
+                            </div>
+                        </button>
+                        <div class="faq-group-items">
                         <div class="faq-item">
                             <button class="faq-question" aria-expanded="false">
                                 <span>Jakou antikoncepci si vybrat?</span>
@@ -442,11 +452,19 @@
                                 <p>Hormonální antikoncepce obsahuje syntetické hormony (estrogen a/nebo gestagen), které potlačují ovulaci, mění hlen v čípku a výstelku dělohy. Správně užívaná má spolehlivost přes 99 %.</p>
                             </div>
                         </div>
+                        </div>
                     </div>
 
                     <!-- Zdraví a problémy -->
-                    <div class="faq-group" data-category="zdravi">
-                        <div class="faq-group-label"><span>❗ Zdraví a problémy</span></div>
+                    <div class="faq-group collapsed" data-category="zdravi">
+                        <button class="faq-group-label" aria-expanded="false">
+                            <span>❗ Zdraví a problémy</span>
+                            <div class="faq-group-meta">
+                                <span class="faq-group-count">2 otázky</span>
+                                <i class="fa-solid fa-chevron-down faq-group-chevron"></i>
+                            </div>
+                        </button>
+                        <div class="faq-group-items">
                         <div class="faq-item">
                             <button class="faq-question" aria-expanded="false">
                                 <span>Co dělat při nepravidelné menstruaci?</span>
@@ -465,11 +483,19 @@
                                 <p>Okamžitě vyhledejte pomoc při: silné bolesti v podbřišku, neobvyklém krvácení mimo menstruaci, příznacích zánětu (horečka, výtok se zápachem) nebo podezření na těhotenství v trubici.</p>
                             </div>
                         </div>
+                        </div>
                     </div>
 
                     <!-- Porodnictví -->
-                    <div class="faq-group" data-category="porodnictvi">
-                        <div class="faq-group-label"><span>👶 Porodnictví</span></div>
+                    <div class="faq-group collapsed" data-category="porodnictvi">
+                        <button class="faq-group-label" aria-expanded="false">
+                            <span>👶 Porodnictví</span>
+                            <div class="faq-group-meta">
+                                <span class="faq-group-count">2 otázky</span>
+                                <i class="fa-solid fa-chevron-down faq-group-chevron"></i>
+                            </div>
+                        </button>
+                        <div class="faq-group-items">
                         <div class="faq-item">
                             <button class="faq-question" aria-expanded="false">
                                 <span>Jak probíhá porod?</span>
@@ -488,11 +514,19 @@
                                 <p>Jeďte do porodnice, pokud máte pravidelné kontrakce každých 5 minut, odtekla Vám plodová voda, nebo máte silné krvácení. U rizikového těhotenství se řiďte pokyny Vašeho lékaře.</p>
                             </div>
                         </div>
+                        </div>
                     </div>
 
                     <!-- Praktické informace -->
-                    <div class="faq-group" data-category="prakticke">
-                        <div class="faq-group-label"><span>🧾 Praktické informace</span></div>
+                    <div class="faq-group collapsed" data-category="prakticke">
+                        <button class="faq-group-label" aria-expanded="false">
+                            <span>🧾 Praktické informace</span>
+                            <div class="faq-group-meta">
+                                <span class="faq-group-count">2 otázky</span>
+                                <i class="fa-solid fa-chevron-down faq-group-chevron"></i>
+                            </div>
+                        </button>
+                        <div class="faq-group-items">
                         <div class="faq-item">
                             <button class="faq-question" aria-expanded="false">
                                 <span>Jak se objednat na vyšetření?</span>
@@ -510,6 +544,7 @@
                             <div class="faq-answer">
                                 <p>Ano! Aktuálně <strong>přijímáme nové pacientky</strong>. Zaregistrujte se jednoduše přes náš online rezervační systém nebo nás kontaktujte telefonicky. Těšíme se na Vás!</p>
                             </div>
+                        </div>
                         </div>
                     </div>
 
@@ -628,6 +663,46 @@
             </div>
         </div>
     </footer>
+
+    <!-- AI Chatbot Widget -->
+    <div id="chatbot-widget" class="chatbot-widget">
+        <button id="chatbot-toggle" class="chatbot-toggle" aria-label="Otevřít AI asistenta">
+            <i class="fa-solid fa-robot chatbot-toggle-icon"></i>
+            <i class="fa-solid fa-xmark chatbot-toggle-close"></i>
+            <span class="chatbot-pulse"></span>
+        </button>
+        <div id="chatbot-panel" class="chatbot-panel">
+            <div class="chatbot-header">
+                <div class="chatbot-header-info">
+                    <div class="chatbot-avatar">
+                        <i class="fa-solid fa-leaf"></i>
+                    </div>
+                    <div>
+                        <h4>Femira Asistentka</h4>
+                        <span class="chatbot-status"><span class="chatbot-status-dot"></span> Online</span>
+                    </div>
+                </div>
+                <button id="chatbot-close" class="chatbot-close-btn" aria-label="Zavřít chat">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div id="chatbot-messages" class="chatbot-messages">
+                <!-- Messages will be injected here -->
+            </div>
+            <div class="chatbot-suggestions" id="chatbot-suggestions">
+                <button class="chatbot-suggestion" data-query="Jaké jsou ordinační hodiny?">🕐 Ordinační hodiny</button>
+                <button class="chatbot-suggestion" data-query="Jak se objednat?">📅 Objednání</button>
+                <button class="chatbot-suggestion" data-query="Jaké služby nabízíte?">🩺 Služby</button>
+                <button class="chatbot-suggestion" data-query="Kde vás najdu?">📍 Adresa</button>
+            </div>
+            <form id="chatbot-form" class="chatbot-input-area">
+                <input type="text" id="chatbot-input" class="chatbot-input" placeholder="Napište svůj dotaz…" autocomplete="off">
+                <button type="submit" class="chatbot-send" aria-label="Odeslat">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </form>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>

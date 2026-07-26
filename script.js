@@ -1,4 +1,52 @@
 document.addEventListener('DOMContentLoaded', () => {
+
+    // ===== Načtení aktualit z CSV =====
+    const aktualityObsah = document.getElementById('aktuality-obsah');
+    if (aktualityObsah) {
+        fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vRrb7LXy6aRKpp-LEmFYGCBJhzQTq1Q0yePxLLZ1Jsg_yfV6883yp-1woIOCLQuXVRyJMYJqxjuuKV8/pub?gid=0&single=true&output=csv')
+            .then(r => {
+                if (!r.ok) throw new Error('Soubor aktuality.csv nenalezen');
+                return r.text();
+            })
+            .then(csvText => {
+                const lines = csvText.trim().split('\n').slice(1); // přeskočit hlavičku
+                const items = lines
+                    .map(line => {
+                        // Jednoduchý CSV parser respektující uvozovky
+                        const cols = [];
+                        let cur = '', inQ = false;
+                        for (let i = 0; i < line.length; i++) {
+                            const ch = line[i];
+                            if (ch === '"') { inQ = !inQ; }
+                            else if (ch === ',' && !inQ) { cols.push(cur); cur = ''; }
+                            else { cur += ch; }
+                        }
+                        cols.push(cur);
+                        return cols.map(c => c.trim().replace(/^"|"$/g, ''));
+                    })
+                    .filter(cols => cols.length >= 3 && cols[0] && cols[1]);
+
+                if (items.length === 0) {
+                    aktualityObsah.innerHTML = '<p class="news-empty">Žádné aktuality nejsou k dispozici.</p>';
+                    return;
+                }
+
+                aktualityObsah.innerHTML = items.map(([icon, nadpis, text]) => `
+                    <div class="news-item">
+                        <div class="news-icon"><i class="fa-solid fa-${icon}"></i></div>
+                        <div class="news-text">
+                            <strong>${nadpis}</strong>
+                            <p>${text}</p>
+                        </div>
+                    </div>
+                `).join('');
+            })
+            .catch(err => {
+                console.warn('Aktuality:', err.message);
+                aktualityObsah.innerHTML = '<p class="news-empty">Aktuality se nepodařilo načíst.</p>';
+            });
+    }
+
     // Accordion Logic
     const accordionHeaders = document.querySelectorAll('.accordion-header');
 
@@ -255,15 +303,91 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ===== FAQ Logic =====
-    // Accordion toggle
+
+    // Helper: expand a group (remove collapsed, set max-height)
+    function expandFaqGroup(group) {
+        const items = group.querySelector('.faq-group-items');
+        if (items) {
+            // Clean up any pending timeouts
+            if (items._timeoutId) {
+                clearTimeout(items._timeoutId);
+            }
+            
+            // Remove collapsed class first to let it display/animate
+            group.classList.remove('collapsed');
+            group.querySelector('.faq-group-label').setAttribute('aria-expanded', 'true');
+            
+            // Set max-height to current scroll height to animate open
+            items.style.maxHeight = items.scrollHeight + 'px';
+            
+            // Once transition finishes (450ms), set to 'none' to allow dynamic resizing without clipping
+            items._timeoutId = setTimeout(() => {
+                items.style.maxHeight = 'none';
+                items._timeoutId = null;
+            }, 450);
+        } else {
+            group.classList.remove('collapsed');
+            group.querySelector('.faq-group-label').setAttribute('aria-expanded', 'true');
+        }
+    }
+
+    // Helper: collapse a group
+    function collapseFaqGroup(group) {
+        const items = group.querySelector('.faq-group-items');
+        if (items) {
+            // Clean up any pending timeouts
+            if (items._timeoutId) {
+                clearTimeout(items._timeoutId);
+                items._timeoutId = null;
+            }
+
+            // If it was 'none', set it to pixel height first so the transition can run
+            if (items.style.maxHeight === 'none' || !items.style.maxHeight) {
+                items.style.maxHeight = items.scrollHeight + 'px';
+                items.offsetHeight; // Force reflow
+            }
+            
+            // Now start the collapse transition
+            requestAnimationFrame(() => {
+                group.classList.add('collapsed');
+                group.querySelector('.faq-group-label').setAttribute('aria-expanded', 'false');
+                items.style.maxHeight = null;
+            });
+        } else {
+            group.classList.add('collapsed');
+            group.querySelector('.faq-group-label').setAttribute('aria-expanded', 'false');
+        }
+        
+        // Also close any open FAQ items inside
+        group.querySelectorAll('.faq-item.open').forEach(openItem => {
+            openItem.classList.remove('open');
+            openItem.querySelector('.faq-answer').style.maxHeight = null;
+            openItem.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+        });
+    }
+
+    // Group label click – toggle expand/collapse
+    document.querySelectorAll('.faq-group-label').forEach(label => {
+        label.addEventListener('click', () => {
+            const group = label.closest('.faq-group');
+            if (group.classList.contains('collapsed')) {
+                expandFaqGroup(group);
+            } else {
+                collapseFaqGroup(group);
+            }
+        });
+    });
+
+    // FAQ question accordion toggle
     document.querySelectorAll('.faq-question').forEach(btn => {
         btn.addEventListener('click', () => {
             const item = btn.closest('.faq-item');
             const answer = btn.nextElementSibling;
             const isOpen = item.classList.contains('open');
+            const group = item.closest('.faq-group');
 
-            // Close all other open FAQ items
-            document.querySelectorAll('.faq-item.open').forEach(openItem => {
+            // Close all other open FAQ items inside the same group
+            group.querySelectorAll('.faq-item.open').forEach(openItem => {
                 if (openItem !== item) {
                     openItem.classList.remove('open');
                     openItem.querySelector('.faq-answer').style.maxHeight = null;
@@ -281,35 +405,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 answer.style.maxHeight = answer.scrollHeight + 'px';
                 btn.setAttribute('aria-expanded', 'true');
             }
-        });
-    });
 
-    // Tab filtering
-    const faqTabs = document.querySelectorAll('.faq-tab');
-    const faqGroups = document.querySelectorAll('.faq-group');
-
-    faqTabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            // Update active tab
-            faqTabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected', 'false'); });
-            tab.classList.add('active');
-            tab.setAttribute('aria-selected', 'true');
-
-            const category = tab.dataset.category;
-
-            faqGroups.forEach(group => {
-                if (category === 'all' || group.dataset.category === category) {
-                    group.removeAttribute('hidden');
-                } else {
-                    group.setAttribute('hidden', '');
-                    // Close any open items inside hidden groups
-                    group.querySelectorAll('.faq-item.open').forEach(openItem => {
-                        openItem.classList.remove('open');
-                        openItem.querySelector('.faq-answer').style.maxHeight = null;
-                        openItem.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
-                    });
-                }
-            });
+            // Recalculate parent group-items max-height ONLY if it is still transitioning (not 'none' yet)
+            const groupItems = group.querySelector('.faq-group-items');
+            if (groupItems && !group.classList.contains('collapsed') && groupItems.style.maxHeight !== 'none') {
+                setTimeout(() => {
+                    if (groupItems.style.maxHeight !== 'none') {
+                        groupItems.style.maxHeight = groupItems.scrollHeight + 'px';
+                    }
+                }, 10);
+            }
         });
     });
 });
@@ -429,3 +534,360 @@ if (preventionForm) {
         resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
 }
+
+
+// ===== AI Chatbot =====
+(function() {
+    'use strict';
+
+    // --- Knowledge Base built from website content ---
+    const KNOWLEDGE_BASE = [
+        {
+            keywords: ['ordinační hodiny', 'otevírací doba', 'hodiny', 'kdy', 'otevřeno', 'zavřeno', 'pracovní doba', 'otvíračka', 'ordnační'],
+            answer: `Naše ordinační hodiny jsou:\n\n🕐 <strong>Pondělí</strong>: 7:30 – 12:00, 13:00 – 15:30 (MUDr. Coufalová)\n🕐 <strong>Úterý</strong>: 13:00 – 17:00 (MUDr. Podráská)\n🕐 <strong>Středa</strong>: 7:30 – 12:00, 13:00 – 15:30 (MUDr. Podráská)\n🕐 <strong>Čtvrtek</strong>: 7:30 – 13:00 (MUDr. Podráská)\n🕐 <strong>Pátek</strong>: 7:30 – 12:00 (MUDr. Spěváček)`,
+            priority: 10
+        },
+        {
+            keywords: ['objednat', 'objednání', 'rezervace', 'termín', 'jak se objednat', 'sjednat', 'zarezervovat', 'reservio'],
+            answer: `Objednat se můžete několika způsoby:\n\n📅 <strong>Online</strong> – přes systém <a href="#rezervace">Reservio</a> (24/7, potvrzení na e-mail)\n📞 <strong>Telefonicky</strong> – <a href="tel:+420416838186">416 838 186</a>\n📧 <strong>E-mailem</strong> – <a href="mailto:gynekolog.ps@seznam.cz">gynekolog.ps@seznam.cz</a>\n\nNejrychlejší je online rezervace, kde vidíte volné termíny.`,
+            priority: 10
+        },
+        {
+            keywords: ['kontakt', 'telefon', 'email', 'volat', 'číslo', 'zavolat', 'napsat', 'spojení'],
+            answer: `Naše kontaktní údaje:\n\n📞 <strong>Telefon</strong>: <a href="tel:+420416838186">416 838 186</a>, <a href="tel:+420724866920">724 866 920</a>\n📧 <strong>E-mail</strong>: <a href="mailto:gynekolog.ps@seznam.cz">gynekolog.ps@seznam.cz</a>\n📍 <strong>Adresa</strong>: Riegrova 637, 413 01 Roudnice nad Labem`,
+            priority: 9
+        },
+        {
+            keywords: ['adresa', 'kde', 'najít', 'lokace', 'poloha', 'mapa', 'cesta', 'kde jste', 'kde vás', 'kde se nacházíte', 'roudnice'],
+            answer: `Najdete nás na adrese:\n\n📍 <strong>Riegrova 637, 413 01 Roudnice nad Labem</strong>\n\n<a href="https://www.google.com/maps/place/Riegrova+637,+413+01+Roudnice+nad+Labem" target="_blank">🗺️ Zobrazit na mapě</a>`,
+            priority: 9
+        },
+        {
+            keywords: ['služby', 'nabízíte', 'co děláte', 'nabídka', 'specializace', 'obory'],
+            answer: `Nabízíme komplexní péči v těchto oblastech:\n\n🩺 <strong>Gynekologie</strong>:\n• Screening a prevence\n• Diagnostika a léčba\n• Antikoncepční poradenství\n• Spolupráce s klinickými pracovišti\n\n🤰 <strong>Porodnictví</strong>:\n• Těhotenské poradny (i rizikové)\n• Ultrazvuk a screening\n• Poradenství u neplodnosti\n• Spolupráce s porodnicemi\n\nVíce se dozvíte v sekci <a href="#sluzby">Služby</a>.`,
+            priority: 9
+        },
+        {
+            keywords: ['prevence', 'preventivní', 'prohlídka', 'screening', 'cytologie'],
+            answer: `Preventivní prohlídka zahrnuje:\n\n✅ Gynekologické vyšetření\n✅ Odběr cytologie (stěr z čípku)\n✅ Ultrazvuk malé pánve a prsu\n✅ Konzultaci o zdravotním stavu\n\nNa preventivní prohlídku máte nárok <strong>jednou ročně</strong> hrazený pojišťovnou. Využijte náš <a href="#prevence">Průvodce prevencí</a> pro doporučení dle vašeho věku.`,
+            priority: 8
+        },
+        {
+            keywords: ['těhotná', 'těhotenství', 'otěhotnět', 'čekám dítě', 'miminko', 'pozitivní test', 'jsem těhotná'],
+            answer: `Pokud jste zjistila těhotenství, gratulujeme! 🎉\n\nDoporučujeme navštívit lékaře <strong>co nejdříve, nejpozději do 8. týdne</strong>. Lékař potvrdí těhotenství ultrazvukem a zahájí vedení těhotenské poradny.\n\nNabízíme kompletní péči včetně rizikových těhotenství. <a href="#rezervace">Objednejte se online</a>.`,
+            priority: 8
+        },
+        {
+            keywords: ['antikoncepce', 'pilulky', 'tělísko', 'hormonální', 'nehormonální', 'kroužek', 'náplast'],
+            answer: `Pomůžeme Vám vybrat tu nejvhodnější antikoncepci dle Vašeho věku, zdravotního stavu a životního stylu.\n\nNabízíme:\n💊 Hormonální antikoncepce (pilulky, náplasti, kroužky)\n🔷 Nitroděložní tělíska\n✨ Nehormonální metody\n\nSprávně užívaná hormonální antikoncepce má spolehlivost přes <strong>99 %</strong>. Vše probereme při konzultaci.`,
+            priority: 8
+        },
+        {
+            keywords: ['nové pacientky', 'přijímáte', 'registrace', 'nová pacientka', 'zaregistrovat', 'nový pacient'],
+            answer: `Ano, aktuálně <strong>přijímáme nové pacientky</strong>! 🎉\n\nZaregistrujte se jednoduše přes náš <a href="#rezervace">online rezervační systém</a> nebo nás kontaktujte telefonicky na <a href="tel:+420416838186">416 838 186</a>.\n\nTěšíme se na Vás!`,
+            priority: 10
+        },
+        {
+            keywords: ['porod', 'porodnice', 'kontrakce', 'plodová voda', 'porodit'],
+            answer: `Porod probíhá ve třech fázích: otevírací, vypuzovací a poporodní.\n\n🚗 <strong>Kdy jet do porodnice</strong>:\n• Pravidelné kontrakce každých 5 minut\n• Odtekla plodová voda\n• Silné krvácení\n\nÚzce spolupracujeme s předními porodnicemi v okolí a zajistíme plynulou navazující péči.`,
+            priority: 7
+        },
+        {
+            keywords: ['menstruace', 'nepravidelná', 'krvácení', 'cyklus', 'perioda'],
+            answer: `Nepravidelná menstruace může mít mnoho příčin – stres, hormonální nerovnováha, změna váhy nebo onemocnění.\n\n⚠️ Pokud nepravidelnosti trvají déle než <strong>2–3 cykly</strong>, doporučujeme návštěvu naší ordinace pro bližší vyšetření.\n\n<a href="#rezervace">Objednejte se</a> k vyšetření.`,
+            priority: 7
+        },
+        {
+            keywords: ['akutní', 'okamžitě', 'urgentní', 'bolest', 'zánět', 'horečka', 'výtok', 'krvácení mimo'],
+            answer: `⚠️ <strong>Okamžitě vyhledejte pomoc</strong> při:\n\n• Silné bolesti v podbřišku\n• Neobvyklém krvácení mimo menstruaci\n• Příznacích zánětu (horečka, výtok se zápachem)\n• Podezření na mimoděložní těhotenství\n\nKontaktujte nás na <a href="tel:+420416838186">416 838 186</a> nebo navštivte nejbližší pohotovost.`,
+            priority: 10
+        },
+        {
+            keywords: ['připravit', 'příprava', 'před prohlídkou', 'co s sebou', 'co vzít'],
+            answer: `Jak se připravit na gynekologickou prohlídku:\n\n📋 Naplánujte návštěvu <strong>mimo menstruaci</strong>\n🚫 24–48 hodin před prohlídkou bez pohlavního styku\n💳 Přineste průkaz pojišťovny\n💊 Seznam užívaných léků\n\nŽádná speciální příprava není potřeba – není se čeho bát! 😊`,
+            priority: 7
+        },
+        {
+            keywords: ['poprvé', 'první návštěva', 'první', 'panenství', 'mladá', 'dívka'],
+            answer: `Doporučujeme první návštěvu gynekologie kolem <strong>15–18 roku věku</strong>, nebo při zahájení pohlavního života.\n\nGynekolog Vás provede prevencí a zodpoví veškeré Vaše otázky ohledně zdraví. Není se čeho bát! 😊`,
+            priority: 7
+        },
+        {
+            keywords: ['neplodnost', 'otěhotnět', 'nedaří', 'reprodukce', 'ivf', 'umělé oplodnění'],
+            answer: `Pokud se Vám nedaří otěhotnět, provedeme prvotní diagnostiku příčin a připravíme návrhy řešení.\n\nNásledně zajišťujeme plynulou spolupráci se <strong>špičkovými centry asistované reprodukce</strong>.\n\n<a href="#rezervace">Objednejte se</a> na konzultaci.`,
+            priority: 8
+        },
+        {
+            keywords: ['lékař', 'doktor', 'doktorka', 'tým', 'kdo ordinuje', 'jméno lékaře'],
+            answer: `Náš lékařský tým:\n\n👩‍⚕️ <strong>MUDr. Monika Coufalová</strong> – pondělí\n👩‍⚕️ <strong>MUDr. Simona Podráská</strong> – úterý, středa, čtvrtek\n👨‍⚕️ <strong>MUDr. Pavel Spěváček</strong> – pátek\n\nVíce v sekci <a href="#tym">Lékařský tým</a>.`,
+            priority: 8
+        },
+        {
+            keywords: ['ultrazvuk', 'usg', 'sono', 'sonografie'],
+            answer: `Naše ambulance je vybavena <strong>moderní ultrazvukovou technikou</strong> pro přesné sledování.\n\nNabízíme:\n• Ultrazvuk malé pánve\n• Prvotrimestrální screening vrozených vad\n• Podrobná morfologická vyšetření\n• Ultrazvuk v rámci preventivní prohlídky`,
+            priority: 7
+        },
+        {
+            keywords: ['ičo', 'firma', 'společnost', 'právní', 'spisová značka'],
+            answer: `Firemní údaje:\n\n🏢 <strong>Femira</strong> – Poradna pro ženy\n📋 IČO: 10964011\n⚖️ Spisová značka: C 47304/KSUL Krajský soud v Ústí nad Labem`,
+            priority: 5
+        },
+        {
+            keywords: ['ahoj', 'dobrý den', 'zdravím', 'čau', 'nazdar', 'helou', 'hello', 'hi', 'hej'],
+            answer: `Dobrý den! 👋 Jsem virtuální asistentka Femira. Ráda Vám pomohu s jakýmkoliv dotazem ohledně naší ambulance.\n\nMůžete se mě zeptat například na ordinační hodiny, služby, jak se objednat, nebo cokoliv dalšího.`,
+            priority: 3
+        },
+        {
+            keywords: ['děkuji', 'díky', 'dekuji', 'dík', 'díkes', 'mockrát', 'thanks'],
+            answer: `Není za co! 😊 Pokud budete potřebovat cokoliv dalšího, jsem tu pro Vás. Přeji hezký den! 🌸`,
+            priority: 3
+        },
+        {
+            keywords: ['pojišťovna', 'hrazeno', 'zdarma', 'cena', 'kolik stojí', 'platit', 'poplatek'],
+            answer: `Preventivní gynekologická prohlídka je hrazena zdravotní pojišťovnou <strong>jednou ročně</strong>.\n\nPodrobné informace o tom, na co máte nárok v rámci veřejného pojištění, najdete v sekci <a href="#prevence">Průvodce prevencí</a>.\n\nKonkrétní dotazy na ceny individuálních služeb zodpovíme telefonicky na <a href="tel:+420416838186">416 838 186</a>.`,
+            priority: 7
+        }
+    ];
+
+    // --- Normalize text for matching ---
+    function normalize(text) {
+        return text
+            .toLowerCase()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')   // remove diacritics
+            .replace(/[^a-z0-9\s]/g, ' ')
+            .replace(/\s+/g, ' ')
+            .trim();
+    }
+
+    // --- Find best matching answer ---
+    function findAnswer(userInput) {
+        const normalizedInput = normalize(userInput);
+        const inputWords = normalizedInput.split(' ');
+
+        let bestMatch = null;
+        let bestScore = 0;
+
+        for (const entry of KNOWLEDGE_BASE) {
+            let score = 0;
+
+            for (const keyword of entry.keywords) {
+                const normalizedKeyword = normalize(keyword);
+                const keywordWords = normalizedKeyword.split(' ');
+
+                // Exact phrase match (highest value)
+                if (normalizedInput.includes(normalizedKeyword)) {
+                    score += 10 * keywordWords.length;
+                } else {
+                    // Individual word matches
+                    for (const kw of keywordWords) {
+                        for (const iw of inputWords) {
+                            if (iw === kw) {
+                                score += 3;
+                            } else if (iw.length > 3 && kw.length > 3 && (iw.includes(kw) || kw.includes(iw))) {
+                                score += 1.5;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Apply priority weighting
+            if (score > 0) {
+                score += entry.priority * 0.5;
+            }
+
+            if (score > bestScore) {
+                bestScore = score;
+                bestMatch = entry;
+            }
+        }
+
+        // Minimum threshold for a match
+        if (bestScore >= 3) {
+            return bestMatch.answer;
+        }
+
+        return null;
+    }
+
+    // --- Fallback responses ---
+    const FALLBACK_RESPONSES = [
+        `Omlouvám se, na tuto otázku nemám přesnou odpověď. 😊 Zkuste se zeptat na:\n\n• Ordinační hodiny\n• Jak se objednat\n• Naše služby\n• Kontaktní údaje\n\nNebo nás kontaktujte přímo na <a href="tel:+420416838186">416 838 186</a>.`,
+        `Tuto informaci bohužel nemám k dispozici. Doporučuji kontaktovat naši ambulanci přímo:\n\n📞 <a href="tel:+420416838186">416 838 186</a>\n📧 <a href="mailto:gynekolog.ps@seznam.cz">gynekolog.ps@seznam.cz</a>`,
+        `Na toto se mi nepodařilo najít odpověď. Zkuste položit otázku jinak, nebo se podívejte do sekce <a href="#faq">FAQ</a>, kde najdete nejčastější otázky a odpovědi.`
+    ];
+
+    let fallbackIndex = 0;
+    function getFallback() {
+        const response = FALLBACK_RESPONSES[fallbackIndex];
+        fallbackIndex = (fallbackIndex + 1) % FALLBACK_RESPONSES.length;
+        return response;
+    }
+
+    // --- DOM Elements ---
+    const widget = document.getElementById('chatbot-widget');
+    const toggle = document.getElementById('chatbot-toggle');
+    const closeBtn = document.getElementById('chatbot-close');
+    const panel = document.getElementById('chatbot-panel');
+    const messagesContainer = document.getElementById('chatbot-messages');
+    const form = document.getElementById('chatbot-form');
+    const input = document.getElementById('chatbot-input');
+    const suggestionsContainer = document.getElementById('chatbot-suggestions');
+
+    if (!widget || !toggle || !form) return;
+
+    // --- State ---
+    let isOpen = false;
+    let isFirstOpen = true;
+
+    // --- Message rendering ---
+    function createMessage(text, sender) {
+        const msg = document.createElement('div');
+        msg.className = `chatbot-msg ${sender}`;
+
+        const avatar = document.createElement('div');
+        avatar.className = 'chatbot-msg-avatar';
+        avatar.innerHTML = sender === 'bot'
+            ? '<i class="fa-solid fa-leaf"></i>'
+            : '<i class="fa-solid fa-user"></i>';
+
+        const bubble = document.createElement('div');
+        bubble.className = 'chatbot-msg-bubble';
+        bubble.innerHTML = text.replace(/\n/g, '<br>');
+
+        msg.appendChild(avatar);
+        msg.appendChild(bubble);
+
+        return msg;
+    }
+
+    function addMessage(text, sender) {
+        messagesContainer.appendChild(createMessage(text, sender));
+        scrollToBottom();
+    }
+
+    function scrollToBottom() {
+        requestAnimationFrame(() => {
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        });
+    }
+
+    // --- Typing indicator ---
+    function showTyping() {
+        const typingMsg = document.createElement('div');
+        typingMsg.className = 'chatbot-msg bot';
+        typingMsg.id = 'chatbot-typing-indicator';
+
+        const avatar = document.createElement('div');
+        avatar.className = 'chatbot-msg-avatar';
+        avatar.innerHTML = '<i class="fa-solid fa-leaf"></i>';
+
+        const bubble = document.createElement('div');
+        bubble.className = 'chatbot-msg-bubble';
+        bubble.innerHTML = `
+            <div class="chatbot-typing">
+                <div class="chatbot-typing-dot"></div>
+                <div class="chatbot-typing-dot"></div>
+                <div class="chatbot-typing-dot"></div>
+            </div>
+        `;
+
+        typingMsg.appendChild(avatar);
+        typingMsg.appendChild(bubble);
+        messagesContainer.appendChild(typingMsg);
+        scrollToBottom();
+    }
+
+    function hideTyping() {
+        const typing = document.getElementById('chatbot-typing-indicator');
+        if (typing) typing.remove();
+    }
+
+    // --- Bot response with delay ---
+    function botRespond(userText) {
+        showTyping();
+        const delay = 600 + Math.random() * 800;
+
+        setTimeout(() => {
+            hideTyping();
+            const answer = findAnswer(userText);
+            addMessage(answer || getFallback(), 'bot');
+        }, delay);
+    }
+
+    // --- Toggle panel ---
+    function openChat() {
+        isOpen = true;
+        widget.classList.add('open');
+
+        if (isFirstOpen) {
+            isFirstOpen = false;
+            setTimeout(() => {
+                addMessage(
+                    'Dobrý den! 👋 Jsem virtuální asistentka <strong>Femira</strong>. Pomohu Vám s informacemi o naší ambulanci, službách, ordinačních hodinách a více.\n\nNa co se chcete zeptat?',
+                    'bot'
+                );
+            }, 400);
+        }
+
+        setTimeout(() => input.focus(), 500);
+    }
+
+    function closeChat() {
+        isOpen = false;
+        widget.classList.remove('open');
+    }
+
+    function toggleChat() {
+        if (isOpen) closeChat();
+        else openChat();
+    }
+
+    // --- Event Listeners ---
+    toggle.addEventListener('click', toggleChat);
+    closeBtn.addEventListener('click', closeChat);
+
+    // Form submission
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const text = input.value.trim();
+        if (!text) return;
+
+        addMessage(text, 'user');
+        input.value = '';
+
+        // Hide suggestions after first user message
+        if (suggestionsContainer) {
+            suggestionsContainer.style.display = 'none';
+        }
+
+        botRespond(text);
+    });
+
+    // Suggestion chips
+    if (suggestionsContainer) {
+        suggestionsContainer.addEventListener('click', (e) => {
+            const btn = e.target.closest('.chatbot-suggestion');
+            if (!btn) return;
+
+            const query = btn.dataset.query;
+            addMessage(query, 'user');
+            suggestionsContainer.style.display = 'none';
+            botRespond(query);
+        });
+    }
+
+    // Close on Escape
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && isOpen) closeChat();
+    });
+
+    // Close when clicking outside
+    document.addEventListener('click', (e) => {
+        if (isOpen && !widget.contains(e.target)) {
+            closeChat();
+        }
+    });
+
+})();
